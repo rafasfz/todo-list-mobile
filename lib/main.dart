@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
     Scaffold screen = Scaffold(
       appBar: AppBar(
         title: Text("Lista de Tarefas"),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.purpleAccent,
         centerTitle: true,
       ),
       body: Column(
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                     controller: _todoController,
                     decoration: InputDecoration(
                       labelText: "Nova Tarefa",
-                      labelStyle: TextStyle(color: Colors.blueAccent),
+                      labelStyle: TextStyle(color: Colors.purpleAccent),
                     ),
                   ),
                 ),
@@ -57,12 +57,22 @@ class _HomeState extends State<Home> {
                   child: Text("ADD"),
                   onPressed: addTodo,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blueAccent,
+                    primary: Colors.purpleAccent,
                     textStyle: TextStyle(
                       color: Colors.white70,
                     ),
                   ),
-                )
+                ),
+                ElevatedButton(
+                  child: Text("Limpar"),
+                  onPressed: clearTodo,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.purpleAccent,
+                    textStyle: TextStyle(
+                      color: Colors.white70,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -151,11 +161,21 @@ class _HomeState extends State<Home> {
 
   void addTodo() {
     setState(() {
-      Map<String, dynamic> newTodo = Map();
-      newTodo["title"] = _todoController.text;
-      _todoController.text = "";
-      newTodo["ok"] = false;
-      _todoList.add(newTodo);
+      if (_todoController.text.isNotEmpty) {
+        Map<String, dynamic> newTodo = Map();
+        newTodo["title"] = _todoController.text;
+        _todoController.text = "";
+        newTodo["ok"] = false;
+        _todoList.add(newTodo);
+        _saveData();
+      }
+      
+    });
+  }
+
+  void clearTodo() {
+    setState(() {
+      _todoList.clear();
       _saveData();
     });
   }
